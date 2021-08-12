@@ -1,0 +1,54 @@
+div {
+  position: absolute;
+}
+
+#chart-container {
+  left: 0;
+  top: 130px;
+  width: 600px;
+  height: 600px;
+  background-color: red;
+}
+
+#results-container {
+  left: 0;
+  top: 740px;
+  width: 100%;
+  height: 40px;
+}
+
+#results-container > * {
+  display: inline-block;
+}
+
+#results-container > button {
+  display: none;
+}
+
+
+/* Shows list of book covers at bottom of screen */
+#books-container {
+  position: absolute;
+  left: 0;
+  top: 800px;
+  width: 100%;
+  height: 150px;
+  overflow-x: scroll;
+}
+
+#books-container > table {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+td > img {
+  display: inline;
+  max-height: 150px;
+  width: auto;
+}
+
+td > *:hover {
+  cursor: pointer;
+}
