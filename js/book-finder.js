@@ -18,7 +18,7 @@ function findBooks() {
 
 function queryOpenLibrary(queryStr) {
   let terms = queryStr.replace(/\s+/g, "+"); // replace whitespace with + for api call
-  let url = `http://openlibrary.org/search.json?q=${terms}&limit=${limit}`;
+  let url = `//openlibrary.org/search.json?q=${terms}&limit=${limit}`;
 
   $.getJSON(url).done(function(data){
     if (data) {
