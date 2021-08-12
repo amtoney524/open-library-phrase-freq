@@ -7,7 +7,7 @@ div {
   top: 130px;
   width: 600px;
   height: 600px;
-  background-color: red;
+  visibility: hidden;
 }
 
 #results-container {

@@ -1,6 +1,5 @@
 let limit = 20;
 let books = [];
-let numBooks = 0;
 
 function getSearchTerms() {
   let phraseField = document.querySelector(".phrase-field");
@@ -11,6 +10,7 @@ function getSearchTerms() {
 function findBooks() {
   limit = 20; // reset to 20 on new search
   let searchTerms = getSearchTerms();
+  $("rect").remove();
   queryOpenLibrary(searchTerms);
 
   return false; // stops redirect
@@ -23,11 +23,11 @@ function queryOpenLibrary(queryStr) {
   $.getJSON(url).done(function(data){
     if (data) {
       books = data.docs;
-      numBooks = data.numFound;
+      let numBooks = data.numFound;
+      triggerD3Update();
+      $("#results-container > button").show();
+      $("#results").html(`Displaying ${books.length} of ${numBooks} for phrase \"${queryStr}\"`);
     }
-
-    $("#results-container > button").show();
-    $("#results").html(`Displaying ${books.length} of ${numBooks} for phrase \"${queryStr}\"`);
   }).fail(function() {
     console.log("Getting data failed.")
   });
@@ -64,5 +64,44 @@ function displayBooks(booksSubset) {
     }
 
     $(tr).append($(td));
+  });
+}
+
+function triggerD3Update() {
+  let yearMap = new Map();
+
+  books.forEach(function(b) {
+    if (b.first_publish_year) {
+      let freq = yearMap.has(b.first_publish_year) ? yearMap.get(b.first_publish_year) : 0;
+      yearMap.set(b.first_publish_year, ++freq);
+    }
+  });
+
+  let mapItr = yearMap[Symbol.iterator]();
+
+  let cleanData = []
+
+  for (const item of mapItr) {
+    let year = Number(item[0]);
+    let numBooks = Number(item[1]);
+    let book = new Object();
+    book.year = year;
+    book.numBooks = numBooks;
+    cleanData.push(book);
+  }
+
+  cleanData.sort(function(a, b) {
+    return a.year - b.year;
+  });
+
+  update(cleanData);
+  $("#chart-container").css("visibility", "visible");
+
+  $("rect").hover(function() {
+    let subset = books.filter((book) => {
+      return book.first_publish_year === Number($(this).attr("year"));
+    });
+
+    displayBooks(subset);
   });
 }
