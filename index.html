@@ -5,7 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpenLibrary phrase frequency search</title>
+  <script src="js/jquery-3.6.0.min.js"></script>
   <script src="js/book-finder.js"></script>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
   <h1>OpenLibrary phrase frequency search</h1>
@@ -14,5 +17,24 @@
     <input type="text" class="phrase-field" required>
     <input type="submit" value="Search">
   </form>
+
+  <div id="chart-container"></div>
+
+
+
+  <div id="results-container">
+    <button onclick="fetchMore()">Fetch More</button>
+    <p id="results"></p>
+  </div>
+
+
+  <!-- List of book covers -->
+  <div id="books-container">
+    <table>
+      <tbody> 
+        <tr></tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
