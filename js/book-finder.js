@@ -88,33 +88,38 @@ function displayBooks(booksSubset) {
 }
 
 function triggerD3Update() {
-  let yearMap = new Map();
+  // Map each decade to the number of book results
+  let decadeMap = new Map();
 
   books.forEach(function(b) {
-    let freq = yearMap.has(b.decade) ? yearMap.get(b.decade) : 0;
-    yearMap.set(b.decade, ++freq);
+    let freq = decadeMap.has(b.decade) ? decadeMap.get(b.decade) : 0;
+    decadeMap.set(b.decade, ++freq);
   });
 
-  let mapItr = yearMap[Symbol.iterator]();
+  let mapItr = decadeMap[Symbol.iterator]();
 
+  // Translate map into array of objects to pass to D3
   let cleanData = []
 
   for (const item of mapItr) {
-    let year = Number(item[0]);
+    let decade = Number(item[0]);
     let numBooks = Number(item[1]);
     let book = new Object();
-    book.year = year;
+    book.year = decade;
     book.numBooks = numBooks;
     cleanData.push(book);
   }
 
+  // Sort the array by year 
   cleanData.sort(function(a, b) {
     return a.year - b.year;
   });
 
+  // update D3 and show chart
   update(cleanData);
   $("#chart-container").css("visibility", "visible");
 
+  // assign event listener to every charted rectangle
   $("rect").hover(function() {
     let subset = books.filter((book) => {
       let decade = Number($(this).attr("year"));
