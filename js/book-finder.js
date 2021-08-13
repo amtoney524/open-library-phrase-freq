@@ -51,7 +51,7 @@ function queryOpenLibrary(queryStr) {
 
       triggerD3Update();
       $("#results-container > button").show();
-      $("#results").html(`Displaying ${20 * page} of ${data.hits.total} for phrase \"${queryStr}\"`);
+      $("#results").html(`Retrieved ${20 * page} out of ${data.hits.total} results for phrase \"${queryStr}\"`);
     }
   }).fail(function() {
     console.log("Getting data failed.")

@@ -1,12 +1,12 @@
 const MARGIN = {
   left: 70,
-  right: 10,
-  top: 10,
-  bottom: 80
+  right: 30,
+  top: 30,
+  bottom: 70
 };
 
-const WIDTH = 700 - MARGIN.left - MARGIN.right;
-const HEIGHT = 460 - MARGIN.top - MARGIN.bottom;
+const WIDTH = $("#chart-container").width() - MARGIN.left - MARGIN.right;
+const HEIGHT = $("#chart-container").height() - MARGIN.top - MARGIN.bottom;
 
 const t = d3.transition().duration(750);
 
@@ -21,8 +21,8 @@ const g = svg.append("g")
 // the domain is set in the update function and is an array of available inputs
 const x = d3.scaleBand()
   .range([0, WIDTH])
-  .paddingInner(0.2)
-  .paddingOuter(0.2);
+  .paddingInner(0.1)
+  .paddingOuter(0.1);
 
 // our y scale determines the height of each bar
 const y = d3.scaleLinear()
@@ -40,7 +40,7 @@ const yAxisGroup = g.append("g")
 .attr("class", "y axis");
 
 const xAxisLabel = g.append("text")
-.attr("transform", `translate(${ WIDTH / 2 }, ${HEIGHT + MARGIN.bottom - 10})`)
+.attr("transform", `translate(${ WIDTH / 2 }, ${HEIGHT + MARGIN.bottom - 15})`)
 .attr("class", "x axis-label")
 .attr("text-anchor", "middle")
 .style("font-family", "sans-serif")
