@@ -1,4 +1,4 @@
-let limit = 20;
+let limit = 1;
 let books = [];
 
 function getSearchTerms() {
@@ -8,7 +8,8 @@ function getSearchTerms() {
 }
 
 function findBooks() {
-  limit = 20; // reset to 20 on new search
+  books = [];
+  limit = 1; // reset to 20 on new search
   let searchTerms = getSearchTerms();
   $("rect").remove();
   queryOpenLibrary(searchTerms);
@@ -18,15 +19,30 @@ function findBooks() {
 
 function queryOpenLibrary(queryStr) {
   let terms = queryStr.replace(/\s+/g, "+"); // replace whitespace with + for api call
-  let url = `//openlibrary.org/search.json?q=${terms}&limit=${limit}`;
+  let url = `//openlibrary.org/search/inside.json?q=${terms}&page=${limit}`;
 
   $.getJSON(url).done(function(data){
+
     if (data) {
-      books = data.docs;
-      let numBooks = data.numFound;
+      data.hits.hits.forEach(function(book) {
+
+        if (book.fields.meta_year) {
+          let bookClean = new Object({"year": Number(book.fields.meta_year[0])});
+
+          bookClean.decade = bookClean.year - bookClean.year % 10;
+          
+          if (book.edition) {
+            bookClean.url = book.edition.url;
+            bookClean.cover_url = book.edition.cover_url;
+          }
+
+          books.push(bookClean);
+       }
+      });
+
       triggerD3Update();
       $("#results-container > button").show();
-      $("#results").html(`Displaying ${books.length} of ${numBooks} for phrase \"${queryStr}\"`);
+      $("#results").html(`Displaying ${books.length} of ${data.hits.total} for phrase \"${queryStr}\"`);
     }
   }).fail(function() {
     console.log("Getting data failed.")
@@ -35,7 +51,7 @@ function queryOpenLibrary(queryStr) {
 
 function fetchMore() {
   let searchTerms = getSearchTerms();
-  limit += 20;
+  limit += 1;
   queryOpenLibrary(searchTerms);
 }
 
@@ -71,10 +87,8 @@ function triggerD3Update() {
   let yearMap = new Map();
 
   books.forEach(function(b) {
-    if (b.first_publish_year) {
-      let freq = yearMap.has(b.first_publish_year) ? yearMap.get(b.first_publish_year) : 0;
-      yearMap.set(b.first_publish_year, ++freq);
-    }
+    let freq = yearMap.has(b.decade) ? yearMap.get(b.decade) : 0;
+    yearMap.set(b.decade, ++freq);
   });
 
   let mapItr = yearMap[Symbol.iterator]();
@@ -99,9 +113,9 @@ function triggerD3Update() {
 
   $("rect").hover(function() {
     let subset = books.filter((book) => {
-      return book.first_publish_year === Number($(this).attr("year"));
+      return book.year === Number($(this).attr("year"));
     });
 
-    displayBooks(subset);
+    //displayBooks(subset);
   });
 }
