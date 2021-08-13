@@ -32,7 +32,7 @@ function queryOpenLibrary(queryStr) {
           bookClean.decade = bookClean.year - bookClean.year % 10;
           
           if (book.edition) {
-            bookClean.url = book.edition.url;
+            bookClean.url = '//openlibrary.org/' + book.edition.url;
             bookClean.cover_url = book.edition.cover_url;
           }
 

@@ -5,8 +5,8 @@ const MARGIN = {
   bottom: 80
 };
 
-const WIDTH = 600 - MARGIN.left - MARGIN.right;
-const HEIGHT = 600 - MARGIN.top - MARGIN.bottom;
+const WIDTH = 700 - MARGIN.left - MARGIN.right;
+const HEIGHT = 460 - MARGIN.top - MARGIN.bottom;
 
 const t = d3.transition().duration(750);
 
@@ -22,7 +22,7 @@ const g = svg.append("g")
 const x = d3.scaleBand()
   .range([0, WIDTH])
   .paddingInner(0.2)
-  .paddingOuter(0.3);
+  .paddingOuter(0.2);
 
 // our y scale determines the height of each bar
 const y = d3.scaleLinear()
@@ -43,7 +43,8 @@ const xAxisLabel = g.append("text")
 .attr("transform", `translate(${ WIDTH / 2 }, ${HEIGHT + MARGIN.bottom - 10})`)
 .attr("class", "x axis-label")
 .attr("text-anchor", "middle")
-.style("font-size", "20px")
+.style("font-family", "sans-serif")
+.style("font-size", "12px")
 .text("Year");
 
 const yAxisLabel = g.append("text")
@@ -52,7 +53,8 @@ const yAxisLabel = g.append("text")
 .attr("text-anchor", "middle")
 .attr("y", "-40")
 .attr("x", -HEIGHT / 2)
-.style("font-size", "20px")
+.style("font-size", "12px")
+.style("font-family", "sans-serif")
 .text("Number of Books");
 
 function update(data) {
@@ -74,7 +76,7 @@ function update(data) {
 
   // ENTER new elements present in the data onto the screen
   rectangles.enter().append("rect")
-    .attr("fill", "grey")
+    .attr("fill", "#6dc0b0")
     .attr("y", y(0))
     .attr("height", 0)
     .merge(rectangles)

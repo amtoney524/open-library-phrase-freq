@@ -5,14 +5,14 @@ div {
 #chart-container {
   left: 0;
   top: 130px;
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 460px;
   visibility: hidden;
 }
 
 #results-container {
-  left: 0;
-  top: 740px;
+  left: 10px;
+  top: 600px;
   width: 100%;
   height: 40px;
 }
@@ -30,9 +30,10 @@ div {
 #books-container {
   position: absolute;
   left: 0;
-  top: 800px;
+  margin: 0 10px 0 10px;
+  top: 660px;
   width: 100%;
-  height: 150px;
+  height: 200px;
   overflow-x: scroll;
 }
 
@@ -41,12 +42,15 @@ div {
   padding: 0;
   width: 100%;
   height: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
 }
 
 td > img {
-  display: inline;
-  max-height: 150px;
-  width: auto;
+  max-width: 120px;
+  height: auto;
+  max-height: 200px;
+  vertical-align: bottom;
 }
 
 td > *:hover {
