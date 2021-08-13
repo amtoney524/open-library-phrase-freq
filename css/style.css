@@ -34,25 +34,18 @@ div {
   top: 660px;
   width: 100%;
   height: 200px;
+  display: flex;
   overflow-x: scroll;
 }
 
-#books-container > table {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-
-td > img {
-  max-width: 120px;
-  height: auto;
-  max-height: 200px;
-  vertical-align: bottom;
-}
-
-td > *:hover {
+#books-container > *:hover {
   cursor: pointer;
 }
+
+img {
+  align-self: flex-end;
+  width: 120px;
+  height: auto;
+  max-height: 200px;
+}
+

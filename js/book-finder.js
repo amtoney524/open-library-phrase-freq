@@ -62,29 +62,25 @@ function fetchMore() {
 }
 
 function displayBooks(booksSubset) {
-  let tr = $("tr:last").html("").get();
+  let div = $("#books-container").html("").get();
 
   booksSubset.forEach(function(book) {
     let cover_url = book.cover_url;
     let openLibraryUrl = book.url || "#";
-    
-    let td = $("<td>");
 
     if (cover_url !== undefined) {
       let img = $("<img>").attr("src", cover_url);
       $(img).click(function() {
         window.open(openLibraryUrl, "_blank");
       });
-      $(td).append($(img));
+      $(div).append($(img));
     } else {
       let text = $("<p>").html("[?]");
       $(text).click(function() {
         window.open(openLibraryUrl, "_blank");
       });
-      $(td).append(text);
+      $(div).append(text);
     }
-
-    $(tr).append($(td));
   });
 }
 
