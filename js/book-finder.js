@@ -57,16 +57,15 @@ function fetchMore() {
 
 function displayBooks(booksSubset) {
   let tr = $("tr:last").html("").get();
-  let cover_url = "//covers.openlibrary.org/b/id/";  
 
   booksSubset.forEach(function(book) {
-    let coverIndex = book.cover_i;
-    let openLibraryUrl = "//openlibrary.org/" + book.key;
+    let cover_url = book.cover_url;
+    let openLibraryUrl = book.url || "#";
     
     let td = $("<td>");
 
-    if (coverIndex !== undefined) {
-      let img = $("<img>").attr("src", cover_url + coverIndex + ".jpg");
+    if (cover_url !== undefined) {
+      let img = $("<img>").attr("src", cover_url);
       $(img).click(function() {
         window.open(openLibraryUrl, "_blank");
       });
@@ -113,9 +112,10 @@ function triggerD3Update() {
 
   $("rect").hover(function() {
     let subset = books.filter((book) => {
-      return book.year === Number($(this).attr("year"));
+      let decade = Number($(this).attr("year"));
+      return (book.year - book.year % 10) === decade;
     });
 
-    //displayBooks(subset);
+    displayBooks(subset);
   });
 }
