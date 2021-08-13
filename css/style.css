@@ -49,3 +49,6 @@ img {
   max-height: 200px;
 }
 
+p {
+  align-self: center;
+}

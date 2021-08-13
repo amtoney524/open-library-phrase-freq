@@ -5,6 +5,9 @@ function init() {
   page = 1;
   books = [];
   $("rect").remove();
+  $("#books-container").html("");
+  $("#results-container > button").hide();
+  $("#results").html("");
 }
 
 function getSearchTerms() {
