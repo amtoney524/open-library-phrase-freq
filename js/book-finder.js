@@ -1,5 +1,11 @@
-let limit = 1;
+let page = 1;
 let books = [];
+
+function init() {
+  page = 1;
+  books = [];
+  $("rect").remove();
+}
 
 function getSearchTerms() {
   let phraseField = document.querySelector(".phrase-field");
@@ -8,10 +14,9 @@ function getSearchTerms() {
 }
 
 function findBooks() {
-  books = [];
-  limit = 1; // reset to 20 on new search
+  init();
+
   let searchTerms = getSearchTerms();
-  $("rect").remove();
   queryOpenLibrary(searchTerms);
 
   return false; // stops redirect
@@ -19,7 +24,7 @@ function findBooks() {
 
 function queryOpenLibrary(queryStr) {
   let terms = queryStr.replace(/\s+/g, "+"); // replace whitespace with + for api call
-  let url = `//openlibrary.org/search/inside.json?q=${terms}&page=${limit}`;
+  let url = `//openlibrary.org/search/inside.json?q=${terms}&page=${page}`;
 
   $.getJSON(url).done(function(data){
 
@@ -27,8 +32,9 @@ function queryOpenLibrary(queryStr) {
       data.hits.hits.forEach(function(book) {
 
         if (book.fields.meta_year) {
-          let bookClean = new Object({"year": Number(book.fields.meta_year[0])});
+          let bookClean = new Object();
 
+          bookClean.year = Number(book.fields.meta_year[0]);
           bookClean.decade = bookClean.year - bookClean.year % 10;
           
           if (book.edition) {
@@ -51,7 +57,7 @@ function queryOpenLibrary(queryStr) {
 
 function fetchMore() {
   let searchTerms = getSearchTerms();
-  limit += 1;
+  page += 1;
   queryOpenLibrary(searchTerms);
 }
 
