@@ -38,7 +38,7 @@ function queryOpenLibrary(queryStr) {
           let bookClean = new Object();
 
           bookClean.year = Number(book.fields.meta_year[0]);
-          bookClean.decade = bookClean.year - bookClean.year % 10;
+          bookClean.decade = bookClean.year - bookClean.year % 20;
           
           if (book.edition) {
             bookClean.url = '//openlibrary.org/' + book.edition.url;
@@ -123,7 +123,7 @@ function triggerD3Update() {
   $("rect").hover(function() {
     let subset = books.filter((book) => {
       let decade = Number($(this).attr("year"));
-      return (book.year - book.year % 10) === decade;
+      return (book.year - book.year % 20) === decade;
     });
 
     displayBooks(subset);

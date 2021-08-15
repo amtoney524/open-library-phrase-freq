@@ -21,8 +21,8 @@ const g = svg.append("g")
 // the domain is set in the update function and is an array of available inputs
 const x = d3.scaleBand()
   .range([0, WIDTH])
-  .paddingInner(0.1)
-  .paddingOuter(0.1);
+  .paddingInner(0.05)
+  .paddingOuter(0.05);
 
 // our y scale determines the height of each bar
 const y = d3.scaleLinear()
@@ -62,12 +62,13 @@ function update(data) {
   x.domain(data.map(d => d.year));
   y.domain([0, d3.max(data, d => d.numBooks)]);
 
+  xAxis.tickValues(data.map(d => d.year))
+  .tickFormat((d, i) => data[i].year + " - " + (Number(data[i].year) + 19));
+
   xAxisGroup.transition(t)
     .call(xAxis)
     .selectAll("text")
-    .attr("y", 0)
-    .attr("x", 20)
-    .attr("transform", "rotate(90)");
+    .attr("y", 10);
 
   yAxisGroup.transition(t).call(yAxis);
 
