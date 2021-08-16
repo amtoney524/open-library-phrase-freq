@@ -31,7 +31,8 @@ function queryOpenLibrary(queryStr) {
 
   $.getJSON(url).done(function(data){
 
-    if (data) {
+    if (data.hits.hits.length !== 0) {
+
       data.hits.hits.forEach(function(book) {
 
         if (book.fields.meta_year) {
@@ -52,6 +53,8 @@ function queryOpenLibrary(queryStr) {
       triggerD3Update();
       $("#results-container > button").show();
       $("#results").html(`Retrieved ${20 * page} out of ${data.hits.total} results for phrase \"${queryStr}\"`);
+    } else {
+      $("#results").html(`Retrieved 0 results for phrase \"${queryStr}\"`);
     }
   }).fail(function() {
     console.log("Getting data failed.")
