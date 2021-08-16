@@ -29,25 +29,25 @@ function queryOpenLibrary(queryStr) {
   let terms = queryStr.replace(/\s+/g, "+"); // replace whitespace with + for api call
   let url = `//openlibrary.org/search/inside.json?q=${terms}&page=${page}`;
 
-  $.getJSON(url).done(function(data){
+  $.getJSON(url).done(function (data) {
 
     if (data.hits.hits.length !== 0) {
 
-      data.hits.hits.forEach(function(book) {
+      data.hits.hits.forEach(function (book) {
 
         if (book.fields.meta_year) {
           let bookClean = new Object();
 
           bookClean.year = Number(book.fields.meta_year[0]);
           bookClean.decade = bookClean.year - bookClean.year % 20;
-          
+
           if (book.edition) {
             bookClean.url = '//openlibrary.org/' + book.edition.url;
             bookClean.cover_url = book.edition.cover_url;
           }
 
           books.push(bookClean);
-       }
+        }
       });
 
       triggerD3Update();
@@ -56,7 +56,7 @@ function queryOpenLibrary(queryStr) {
     } else {
       $("#results").html(`Retrieved 0 results for phrase \"${queryStr}\"`);
     }
-  }).fail(function() {
+  }).fail(function () {
     console.log("Getting data failed.")
   });
 }
@@ -70,19 +70,19 @@ function fetchMore() {
 function displayBooks(booksSubset) {
   let div = $("#books-container").html("").get();
 
-  booksSubset.forEach(function(book) {
+  booksSubset.forEach(function (book) {
     let cover_url = book.cover_url;
     let openLibraryUrl = book.url || "#";
 
     if (cover_url !== undefined) {
       let img = $("<img>").attr("src", cover_url);
-      $(img).click(function() {
+      $(img).click(function () {
         window.open(openLibraryUrl, "_blank");
       });
       $(div).append($(img));
     } else {
       let text = $("<p>").html("[?]");
-      $(text).click(function() {
+      $(text).click(function () {
         window.open(openLibraryUrl, "_blank");
       });
       $(div).append(text);
@@ -94,7 +94,7 @@ function triggerD3Update() {
   // Map each decade to the number of book results
   let decadeMap = new Map();
 
-  books.forEach(function(b) {
+  books.forEach(function (b) {
     let freq = decadeMap.has(b.decade) ? decadeMap.get(b.decade) : 0;
     decadeMap.set(b.decade, ++freq);
   });
@@ -114,7 +114,7 @@ function triggerD3Update() {
   }
 
   // Sort the array by year 
-  cleanData.sort(function(a, b) {
+  cleanData.sort(function (a, b) {
     return a.year - b.year;
   });
 
@@ -123,7 +123,7 @@ function triggerD3Update() {
   $("#chart-container").css("visibility", "visible");
 
   // assign event listener to every charted rectangle
-  $("rect").hover(function() {
+  $("rect").hover(function () {
     let subset = books.filter((book) => {
       let decade = Number($(this).attr("year"));
       return (book.year - book.year % 20) === decade;
@@ -132,3 +132,15 @@ function triggerD3Update() {
     displayBooks(subset);
   });
 }
+
+$(window).resize(function () {
+  const chartWidth = $("#chart-container").width();
+  const chartHeight = $("#chart-container").height();
+
+  const svgWidth = $("svg").width();
+  const svgHeight = $("svg").height();
+
+  const scaleFactor = Math.min((chartWidth / svgWidth), (chartHeight / svgHeight));
+
+  $("svg").css("transformOrigin", "left top").css("transform", `scale(${scaleFactor}, ${scaleFactor})`);
+});
