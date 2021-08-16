@@ -1,19 +1,28 @@
-body {
-  background-color: #eceff2;
+html {
+  position: relative;
+  min-height: 100%;
 }
 
+body {
+  background-color: #eceff2;
+  margin-bottom: 200px;
+  /* Margin bottom by footer height */
+}
+
+/** Bar chart **/
 #chart-container {
-  height: 460px;
+  height: 400px;
   background-color: rgba(255, 255, 255, .75);
   border: 1px solid #eaeaea;
   visibility: hidden;
 }
 
-#results-container > * {
+/** Results **/
+#results-container>* {
   display: inline-block;
 }
 
-#results-container > button {
+#results-container>button {
   display: none;
 }
 
@@ -24,17 +33,30 @@ body {
   overflow-x: scroll;
 }
 
-#books-container > *:hover {
-  cursor: pointer;
-}
-
-#books-container > * {
-  align-self: flex-end;
+#books-container>* {
   margin: 0;
 }
 
-img {
+#books-container>p {
+  align-self: center;
+}
+
+#books-container>img {
+  align-self: flex-end;
   width: 120px;
   height: auto;
   max-height: 200px;
+}
+
+#books-container>img:hover {
+  cursor: pointer;
+}
+
+/** Footer **/
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px;
 }
