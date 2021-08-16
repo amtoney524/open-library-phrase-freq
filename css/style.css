@@ -12,9 +12,15 @@ body {
 /** Bar chart **/
 #chart-container {
   height: 400px;
-  background-color: rgba(255, 255, 255, .75);
-  border: 1px solid #eaeaea;
-  visibility: hidden;
+  border: 1px solid rgba(73, 73, 89, .20);
+  background: url('../images/bar-chart.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+#chart-container > svg {
+  display: none;
 }
 
 /** Results **/

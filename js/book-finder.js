@@ -120,7 +120,8 @@ function triggerD3Update() {
 
   // update D3 and show chart
   update(cleanData);
-  $("#chart-container").css("visibility", "visible");
+  $("#chart-container").css("background", "rgba(255, 255, 255, .75)");
+  $("#chart-container > svg").show();
 
   // assign event listener to every charted rectangle
   $("rect").hover(function () {
