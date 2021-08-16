@@ -88,3 +88,15 @@ function update(data) {
       .attr("y", d => y(d.numBooks))
       .attr("height", d => HEIGHT - y(d.numBooks));
 }
+
+$(window).resize(function() {
+  const chartWidth = $("#chart-container").width();
+  const chartHeight = $("#chart-container").height();
+
+  const svgWidth = $("svg").width();
+  const svgHeight = $("svg").height();
+
+  const scaleFactor = Math.min((chartWidth / svgWidth), (chartHeight / svgHeight));
+
+  $("svg").css("transformOrigin", "left top").css("transform", `scale(${scaleFactor}, ${scaleFactor})`);
+});
